@@ -1,9 +1,9 @@
 import VideoItem from "./VideoItem"
 
-export default function VideoList({ videos }) {
+export default function VideoList({ videos, onSelectVideo }) {
 
   const videoList = videos.map(video=>{
-    return <VideoItem key={video.id.videoId} video={video}/>
+    return <VideoItem onSelectVideo={onSelectVideo} key={video.id.videoId} video={video}/>
   })
 
   return (
