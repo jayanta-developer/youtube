@@ -1,6 +1,16 @@
+import VideoItem from "./VideoItem"
 
-export default function VideoList(props) {
+export default function VideoList({ videos }) {
+
+  const videoList = videos.map(video=>{
+    return <VideoItem key={video.id.videoId} video={video}/>
+  })
+
   return (
-    <div>VideoList{props.videos.length}</div>
+    <div className="ui relaxed divided list">
+      VideoList{videos.length}
+      {videoList}
+      </div>
   )
+      
 }
