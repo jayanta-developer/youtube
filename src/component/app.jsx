@@ -16,20 +16,30 @@ class App extends React.Component {
         q: term
       }
     })
-    this.setState({ videos: response.data.items })
+    this.setState({ 
+      videos: response.data.items,
+      selectedVideo: response.data.items[0]
+     })
   }
 
 
-  onSelectVideo=(video)=>{    
-    this.setState({ selectedVideo: video })   
-    }
+  onSelectVideo = (video) => {
+    this.setState({ selectedVideo: video })
+  }
   render() {
     return (
       <div className="ui container">
         <SearchBar onFromSubmit={this.onTermSubmit} />
-        <VideoDetails video={this.state.selectedVideo} />
-        <VideoList onSelectVideo={this.onSelectVideo} videos={this.state.videos}/>
-        
+        <div className="ui grid">
+          <div className="ui row">
+            <div className=" eleven wide column">
+              <VideoDetails video={this.state.selectedVideo} />
+            </div>
+            <div className="five wide column">
+              <VideoList onSelectVideo={this.onSelectVideo} videos={this.state.videos} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
