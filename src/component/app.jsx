@@ -5,45 +5,40 @@ import YouTubeApi from "../api/YouTubeApi";
 import SearchBar from "./SearchBar";
 import VideoList from "./VideoList";
 import VideoDetails from "./VideoDetails";
+import { useState } from "react";
 
 
-class App extends React.Component {
-  state = { videos: [], selectedVideo: null }
+const App = () => {
+  const [videos, setVideos] = useState([]);
+  const [selectedVideo, setSelectedVideos] = useState(null);
 
-  onTermSubmit = async (term) => {
+  const onTermSubmit = async (term) => {
     const response = await YouTubeApi.get('/search', {
       params: {
         q: term
       }
     })
-    this.setState({ 
-      videos: response.data.items,
-      selectedVideo: response.data.items[0]
-     })
+    setVideos(response.data.items);
+    setSelectedVideos(response.data.items[0])
   }
 
-
-  onSelectVideo = (video) => {
-    this.setState({ selectedVideo: video })
-  }
-  render() {
-    return (
-      <div className="ui container">
-        <SearchBar onFromSubmit={this.onTermSubmit} />
-        <div className="ui grid">
-          <div className="ui row">
-            <div className=" eleven wide column">
-              <VideoDetails video={this.state.selectedVideo} />
-            </div>
-            <div className="five wide column">
-              <VideoList onSelectVideo={this.onSelectVideo} videos={this.state.videos} />
-            </div>
+  return (
+    <div className="ui container">
+      <SearchBar onFromSubmit={onTermSubmit} />
+      <div className="ui grid">
+        <div className="ui row">
+          <div className=" eleven wide column">
+            <VideoDetails video={selectedVideo} />
+          </div>
+          <div className="five wide column">
+            <VideoList
+              onSelectVideo={setSelectedVideos}
+              videos={videos} />
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 
-};
-
+}
 export default App;
